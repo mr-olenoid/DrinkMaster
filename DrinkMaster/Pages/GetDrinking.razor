@@ -1,0 +1,56 @@
+﻿@page  "/drinking"
+
+@using DrinkMaster.Models
+@using DrinkMaster.Data
+
+@inject DrinkService drinkService
+<h3>Get to drinking</h3>
+
+<button class="btn btn-primary" @onclick="GetRandomDrink">Random drink</button>
+
+@if (drinks == null)
+{
+    <p><em>Press da button...</em></p>
+}
+else
+{
+<div class="container">
+    <div class="row">
+       @foreach (Drink drink in drinks)
+       {
+        <div class="col-md-4 card-container">
+            <div class="card-flip">
+                <div class="card front">
+                    <img class="card-img-top" src="@drink.ImageLink" alt="Card image cap">
+                    <div class="card-body">
+                        <h4>@drink.Name</h4>
+                    </div>
+                </div>
+                <div class="card back">
+                    <div class="card-body">
+                        <h5>@drink.Instruction</h5>
+                        @foreach (var ingridient in drink.Ingridients)
+                        {
+                            <br><a>@ingridient.Name - @ingridient.Ammount</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+       }
+    </div>
+</div>
+}
+
+
+
+@code {
+    //private Drink drink;
+    private Drink[] drinks;
+    private async Task GetRandomDrink()
+    {
+        //drink = await drinkService.GetRandomBooze();
+        drinks = await drinkService.GetMoreBooze();
+
+    }
+}
